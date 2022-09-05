@@ -1,0 +1,24 @@
+{
+  "name": "gridpainter-hely",
+  "version": "1.0.0",
+  "description": "Real time painting game with socket io",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellohely/gridpainter.git"
+  },
+  "author": "Henrietta Lybeck",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hellohely/gridpainter/issues"
+  },
+  "homepage": "https://github.com/hellohely/gridpainter#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19",
+    "socket.io": "^4.5.2"
+  }
+}
