@@ -1,3 +1,5 @@
+//const socket = io();
+
 var c_canvas = document.getElementById("c");
 var context = c_canvas.getContext("2d");
 
@@ -43,5 +45,9 @@ $(c_canvas).click(function(evt) {
     if (pos != null) {
         context.fillStyle=paintColor;
         context.fillRect(pos.x,pos.y,35,35);
+
+        socket.emit("paintGrid", {pos, paintColor});
     }
+
+    
 });
