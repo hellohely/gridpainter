@@ -19,7 +19,6 @@ socket.emit("setUser", { username, color });
 
 // Message from server
 socket.on("message", (message) => {
-  console.log(message);
   outputMessage(message);
 
   // Scroll down

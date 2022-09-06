@@ -66,6 +66,7 @@ io.on("connection", (socket) => {
   // Listen for paint
   socket.on("paintGrid", ({pos, paintColor}) => {
     console.log(pos, paintColor);
+    io.emit("paintedGrid", ({pos, paintColor}));
 })
 
 });

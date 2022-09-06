@@ -46,8 +46,17 @@ $(c_canvas).click(function(evt) {
         context.fillStyle=paintColor;
         context.fillRect(pos.x,pos.y,35,35);
 
+        // Sends position and color to server
         socket.emit("paintGrid", {pos, paintColor});
-    }
-
-    
+    }  
 });
+
+// Listens to painted grids from server and paints them
+socket.on("paintedGrid", ({pos, paintColor}) => {
+    console.log(pos, paintColor);
+
+    if (pos != null) {
+        context.fillStyle=paintColor;
+        context.fillRect(pos.x,pos.y,35,35);
+    }
+})
