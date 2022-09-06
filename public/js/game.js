@@ -18,7 +18,20 @@ context.strokeStyle = "#ddd";
 context.stroke();
 
 // Set color user paints with
-const paintColor = "#00FF00"
+let paintColor = ""
+
+if (color === 'green') {
+    paintColor = "#6AA84F"
+} else if (color === 'blue') {
+    paintColor = "#2986CC"
+} else if (color === 'yellow') {
+    paintColor = "#FFD966"
+} else if (color === 'red') {
+    paintColor = "#CC0000"
+}
+
+console.log(color);
+console.log(paintColor);
 
 // Getting users mouse position
  function getMousePos(canvas, evt) {
