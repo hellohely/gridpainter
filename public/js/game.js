@@ -1,7 +1,6 @@
-//const socket = io();
-
-var c_canvas = document.getElementById("c");
-var context = c_canvas.getContext("2d");
+// Getting canvas from html file
+var canvas = document.getElementById("c");
+var context = canvas.getContext("2d");
 
 //Drawing grid on canvas
 for (var x = 0.5; x < 525; x += 35) {
@@ -17,59 +16,76 @@ for (var y = 0.5; y < 525; y += 35) {
 context.strokeStyle = "#ddd";
 context.stroke();
 
-// Set color user paints with
-let paintColor = ""
+// Set color user paints with from data in url
+let paintColor = "";
 
-if (color === 'green') {
-    paintColor = "#6AA84F"
-} else if (color === 'blue') {
-    paintColor = "#2986CC"
-} else if (color === 'yellow') {
-    paintColor = "#FFD966"
-} else if (color === 'red') {
-    paintColor = "#CC0000"
+if (color === "green") {
+  paintColor = "#6AA84F";
+} else if (color === "blue") {
+  paintColor = "#2986CC";
+} else if (color === "yellow") {
+  paintColor = "#FFD966";
+} else if (color === "red") {
+  paintColor = "#CC0000";
 }
 
 console.log(color);
 console.log(paintColor);
 
 // Getting users mouse position
- function getMousePos(canvas, evt) {
-        var rect = canvas.getBoundingClientRect();
-        return {
-          x: evt.clientX - rect.left,
-          y: evt.clientY - rect.top
-        };
-      }
+function getMousePos(canvas, evt) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: evt.clientX - rect.left,
+    y: evt.clientY - rect.top,
+  };
+}
 
 // Getting the right square in the grid
 function getNearestSquare(position) {
- var x = position.x;
-    var y = position.y;
-if (x < 0 || y < 0) return null;
-    x = (Math.floor(x / 35) * 35) + 0.5
-    y = (Math.floor(y / 35) * 35) + 0.5
-    return {x: x, y: y};
+  var x = position.x;
+  var y = position.y;
+  if (x < 0 || y < 0) return null;
+  x = Math.floor(x / 35) * 35 + 0.5;
+  y = Math.floor(y / 35) * 35 + 0.5;
+  return { x: x, y: y };
 }
 
 // Fill square with color
-$(c_canvas).click(function(evt) {
-    var pos = getNearestSquare(getMousePos(c_canvas, evt));
-    if (pos != null) {
-        context.fillStyle=paintColor;
-        context.fillRect(pos.x,pos.y,35,35);
+$(canvas).click(function (evt) {
+  var pos = getNearestSquare(getMousePos(canvas, evt));
+  if (pos != null) {
+    context.fillStyle = paintColor;
+    context.fillRect(pos.x, pos.y, 35, 35);
 
-        // Sends position and color to server
-        socket.emit("paintGrid", {pos, paintColor});
-    }  
+    // Sends position and color to server
+    socket.emit("paintGrid", { pos, paintColor });
+  }
 });
 
 // Listens to painted grids from server and paints them
-socket.on("paintedGrid", ({pos, paintColor}) => {
-    console.log(pos, paintColor);
+socket.on("paintedGrid", ({ pos, paintColor }) => {
+  console.log(pos, paintColor);
 
-    if (pos != null) {
-        context.fillStyle=paintColor;
-        context.fillRect(pos.x,pos.y,35,35);
-    }
-})
+  if (pos != null) {
+    context.fillStyle = paintColor;
+    context.fillRect(pos.x, pos.y, 35, 35);
+  }
+});
+
+// Save the image on the camvas
+var saveBtn = document.getElementById("saveImg");
+saveBtn.addEventListener("click", () => {
+  //context.save();
+  const link = document.createElement("a");
+  link.download = "gridpainter.png";
+  link.href = canvas.toDataURL();
+  link.click();
+  link.delete;
+});
+
+// Restore img on canvad
+var openBtn = document.getElementById("openImg");
+openBtn.addEventListener("click", () => {
+  context.restore();
+});

@@ -45,9 +45,9 @@ function outputMessage(message) {
   document.querySelector(".chat-messages").appendChild(div);
 }
 
-// Add users to DOM)
+// Add users to DOM
 function outputUsers(users) {
   userList.innerHTML = `
-  ${users.users.map((user) => `<li>${user.username}</li>`).join('')}
+  ${users.users.map((user) => `<li>${user.username}</li>`).join("")}
     `;
 }

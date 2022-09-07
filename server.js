@@ -14,19 +14,21 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
+const PORT = 3000;
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 app.use(express.static(path.join(__dirname, "public")));
 
 const botName = "ChatBot";
 
 // Run when user connects
-
 io.on("connection", (socket) => {
   socket.on("setUser", ({ username, color }) => {
     const user = setUser(socket.id, username, color);
 
     io.emit("activeUsers", {
       users: getUsers(),
-  });
+    });
 
     // Broadcast when user connects
     socket.broadcast.emit(
@@ -53,24 +55,17 @@ io.on("connection", (socket) => {
         })
       );
     }
-
-   
   });
 
-   // Listen for chat messages
-   socket.on("chatMessage", (msg) => {
+  // Listen for chat messages
+  socket.on("chatMessage", (msg) => {
     const user = getCurrentUser(socket.id);
     io.emit("message", formatMessage(user.username, msg));
   });
 
   // Listen for paint
-  socket.on("paintGrid", ({pos, paintColor}) => {
+  socket.on("paintGrid", ({ pos, paintColor }) => {
     console.log(pos, paintColor);
-    io.emit("paintedGrid", ({pos, paintColor}));
-})
-
+    io.emit("paintedGrid", { pos, paintColor });
+  });
 });
-
-
-const PORT = 3000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
