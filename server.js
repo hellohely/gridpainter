@@ -14,8 +14,9 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-const PORT = 3000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+//const PORT = 3000;
+
+server.listen(process.env.PORT, () => console.log(`Server running on port ${PORT}`));
 
 app.use(express.static(path.join(__dirname, "public")));
 
